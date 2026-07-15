@@ -1,5 +1,6 @@
 const users = require('../models/userModel')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 //register
 exports.register = async (req,res)=>{
@@ -14,5 +15,23 @@ exports.register = async (req,res)=>{
             username,email,password:encryptPassword
         })
         res.status(201).json(newUser)
+    }
+}
+
+//login
+exports.login = async (req,res)=>{
+    console.log("Iniside login controller");
+    const {email,password} = req.body
+    const existingUser = await users.findOne({email})
+    if(existingUser){
+        const isPasswordMatch = await bcrypt.compare(password,existingUser.password)
+        if(isPasswordMatch){
+            const token = jwt.sign({userMail:email,role:existingUser.role},process.env.JWT_SECRET)
+            res.status(200).json({user:existingUser,token})
+        }else{
+            res.status(409).json("Authentication failed... Incorrect Password!!!")
+        }
+    }else{
+       res.status(409).json("Account Doesnot exists... Please Register!!!")
     }
 }

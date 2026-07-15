@@ -13,6 +13,8 @@ router.get('/recipes',recipeController.getAllRecipes)
 router.post('/feedbacks',feedbackController.addFeedback)
 //register
 router.post('/register',userController.register)
+//login
+router.post('/login',userController.login)
 
 
 //authorised routes
