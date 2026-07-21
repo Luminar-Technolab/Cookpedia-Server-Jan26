@@ -4,6 +4,7 @@ const feedbackController = require('../controllers/feedbackController')
 const userController = require('../controllers/userController')
 const saveRecipeController = require('../controllers/saveRecipeController')
 const authenticationMiddleware = require('../middlewares/authenticationMiddleware')
+const downloadController = require('../controllers/downloadController')
 
 const router = new express.Router()
 
@@ -33,5 +34,9 @@ router.post('/user-collection/:id',authenticationMiddleware,saveRecipeController
 router.get('/user-collection',authenticationMiddleware,saveRecipeController.getUserRecipeCollection)
 //delete item from user recipe collection
 router.delete('/user-collection/:id',authenticationMiddleware,saveRecipeController.removeRecipeFromUserCollection)
+//download recipe
+router.post('/download/:id',authenticationMiddleware,downloadController.downloadRecipe)
+//get user download list
+router.get('/user-downloads',authenticationMiddleware,downloadController.getUserDownloadList)
 
 module.exports = router
