@@ -35,3 +35,21 @@ exports.login = async (req,res)=>{
        res.status(409).json("Account Doesnot exists... Please Register!!!")
     }
 }
+
+//user profile update
+exports.editUserProfile = async (req,res)=>{
+    console.log("Iniside editUserProfile controller");
+    const uploadPictureFile = req.file
+    const {id} = req.params
+    const existingUser = await users.findById({_id:id})
+    existingUser.picture = uploadPictureFile.filename
+    await existingUser.save()
+    res.status(200).json(existingUser)
+}
+
+//get all user list
+exports.getUserList = async (req,res)=>{
+    console.log("Iniside getUserList controller");
+    const allUsers = await users.find({role:{$eq:"user"}})
+    res.status(200).json(allUsers)
+}

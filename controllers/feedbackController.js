@@ -9,3 +9,10 @@ exports.addFeedback = async (req,res)=>{
     })
     res.status(201).json(newFeedback)
 }
+
+//get all feedbacks
+exports.getAllFeedbacks = async (req,res)=>{
+    console.log("Inside getAllFeedbacks controller");
+    const allFeedbacks = await feedbacks.find()
+    res.status(200).json(allFeedbacks)
+}

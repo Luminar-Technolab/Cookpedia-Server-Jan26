@@ -5,6 +5,8 @@ const userController = require('../controllers/userController')
 const saveRecipeController = require('../controllers/saveRecipeController')
 const authenticationMiddleware = require('../middlewares/authenticationMiddleware')
 const downloadController = require('../controllers/downloadController')
+const multerMiddleware = require('../middlewares/multerMiddleware')
+const adminMiddleware = require('../middlewares/adminMiddleware')
 
 const router = new express.Router()
 
@@ -38,5 +40,14 @@ router.delete('/user-collection/:id',authenticationMiddleware,saveRecipeControll
 router.post('/download/:id',authenticationMiddleware,downloadController.downloadRecipe)
 //get user download list
 router.get('/user-downloads',authenticationMiddleware,downloadController.getUserDownloadList)
+//edit user profile
+router.put('/users/:id',authenticationMiddleware,multerMiddleware.single('picture'),userController.editUserProfile)
+//get all users
+router.get('/users',adminMiddleware,userController.getUserList)
+//get all downloads
+router.get('/downloads',adminMiddleware,downloadController.getAllDownloadList)
+//get all feedbacks
+router.get('/feedbacks',adminMiddleware,feedbackController.getAllFeedbacks)
+
 
 module.exports = router
