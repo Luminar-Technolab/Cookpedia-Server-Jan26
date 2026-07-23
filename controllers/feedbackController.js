@@ -16,3 +16,21 @@ exports.getAllFeedbacks = async (req,res)=>{
     const allFeedbacks = await feedbacks.find()
     res.status(200).json(allFeedbacks)
 }
+
+//update feedback status
+exports.updateFeedbackStatus = async (req,res)=>{
+    console.log("Inside updateFeedbackStatus controller");
+    const {id} = req.params
+    const {status} =  req.body
+    const updateFeedback = await feedbacks.findById({_id:id})
+    updateFeedback.status = status
+    await updateFeedback.save()
+    res.status(200).json(updateFeedback)
+}
+
+//get all approve feedbacks
+exports.getAllapproveFeedbacks = async (req,res)=>{
+    console.log("Inside getAllapproveFeedbacks controller");
+    const allFeedbacks = await feedbacks.find({status:{$eq:'approve'}})
+    res.status(200).json(allFeedbacks)
+}

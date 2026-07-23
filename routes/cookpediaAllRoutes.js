@@ -20,7 +20,8 @@ router.post('/feedbacks',feedbackController.addFeedback)
 router.post('/register',userController.register)
 //login
 router.post('/login',userController.login)
-
+//get approve feedback
+router.get('/approve-feedbacks',feedbackController.getAllapproveFeedbacks)
 
 //authorised routes
 
@@ -42,12 +43,17 @@ router.post('/download/:id',authenticationMiddleware,downloadController.download
 router.get('/user-downloads',authenticationMiddleware,downloadController.getUserDownloadList)
 //edit user profile
 router.put('/users/:id',authenticationMiddleware,multerMiddleware.single('picture'),userController.editUserProfile)
+
+// ADMIN
+
 //get all users
 router.get('/users',adminMiddleware,userController.getUserList)
 //get all downloads
 router.get('/downloads',adminMiddleware,downloadController.getAllDownloadList)
 //get all feedbacks
 router.get('/feedbacks',adminMiddleware,feedbackController.getAllFeedbacks)
+//update feedbacks
+router.put('/feedbacks/:id',adminMiddleware,feedbackController.updateFeedbackStatus)
 
 
 module.exports = router
